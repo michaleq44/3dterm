@@ -1,5 +1,5 @@
 all:
-	mkdir bin
+	mkdir -p bin
 	g++ ./src/main.cpp --std=c++20 -Iinclude -o ./bin/main.exe
 
 run:

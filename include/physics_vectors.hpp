@@ -19,83 +19,87 @@ class vec3 {
         this->y = y;
         this->z = z;
     }
-    vec3& operator+=(const vec3& rhs);
-    vec3& operator-=(const vec3& rhs);
-    vec3& operator*=(const int& rhs);
-    vec3& operator*=(const vec3& rhs);
+    vec3& operator+=(vec3 rhs);
+    vec3& operator-=(vec3 rhs);
+    vec3& operator*=(int rhs);
+    vec3& operator*=(vec3 rhs);
+    vec3 operator+(vec3 rhs) {
+        return {this->x + rhs.x, this->y + rhs.y, this->z + rhs.z};
+    }
+    vec3 operator-(vec3 rhs) {
+        return {this->x - rhs.x, this->y - rhs.y, this->z - rhs.z};;
+    }
+    vec3 operator*(int rhs) {
+        return {this->x * rhs, this->y * rhs, this->z * rhs};
+    }
+    vec3 operator*(vec3 rhs) {
+        return {this->x * rhs.x, this->y * rhs.y, this->z * rhs.z};
+    }
 
     int64_t norm() {
         return sqrt(this->x*this->x + this->y*this->y + this->z*this->z);
     }
-    vec3 cross(const vec3& x) {
+    vec3 cross(vec3 x) {
         vec3 ret;
         ret.x = this->y * x.z - this->z * x.y;
         ret.y = this->z * x.x - this->x * x.z;
         ret.z = this->x * x.y - this->y * x.x;
         return ret;
     }
+    int64_t dist(vec3 x) {
+        vec3 y(this->x, this->y, this->z);
+        return (x - y).norm();
+    }
+
 };
 class vec4 {
     public:
     int64_t x, y, z, w;
+    vec3 v;
     vec4(int64_t x = 0, int64_t y = 0, int64_t z = 0, int64_t w = 1) {
         this->x = x;
         this->y = y;
         this->z = z;
         this->w = w;
+        v = {x, y, z};
     }
 };
 
 // operation operators {
 
-bool operator==(const vec2& lhs, const vec2& rhs) {
+bool operator==(vec2& lhs, vec2& rhs) {
     return lhs.x == rhs.x && lhs.y == rhs.y;
 }
-bool operator==(const vec3& lhs, const vec3& rhs) {
+bool operator==(vec3 lhs, vec3 rhs) {
     return lhs.x == rhs.x && lhs.y == rhs.y && lhs.z == rhs.z;
 }
-bool operator==(const vec4& lhs, const vec4& rhs) {
+bool operator==(vec4& lhs, vec4& rhs) {
     return lhs.x == rhs.x && lhs.y == rhs.y && lhs.z == rhs.z && lhs.w == rhs.w;
-}
-vec3 operator+(const vec3& lhs, const vec3& rhs) {
-    return {lhs.x + rhs.x, lhs.y + rhs.y, lhs.z + rhs.z};
-}
-vec3 operator-(const vec3& lhs, const vec3& rhs) {
-    return {lhs.x - rhs.x, lhs.y - rhs.y, lhs.z - rhs.z};;
-}
-vec3 operator*(const vec3& lhs, const int& rhs) {
-    return {lhs.x * rhs, lhs.y * rhs, lhs.z * rhs};
-}
-vec3 operator*(const int& lhs, const vec3& rhs) {
-    return {rhs.x * lhs, rhs.y * lhs, rhs.z * lhs};
-}
-vec3 operator*(const vec3& lhs, const vec3& rhs) {
-    return {lhs.x * rhs.x, lhs.y * rhs.y, lhs.z * rhs.z};
 }
 
 // }
 
 // operation changin operators {
 
-vec3& vec3::operator+=(const vec3& rhs) {
+vec3& vec3::operator+=(vec3 rhs) {
     this->x += rhs.x;
     this->y += rhs.y;
     this->z += rhs.z;
     return *this;
 }
-vec3& vec3::operator-=(const vec3& rhs) {
+vec3& vec3::operator-=(vec3 rhs) {
     this->x -= rhs.x;
     this->y -= rhs.y;
     this->z -= rhs.z;
     return *this;
 }
-vec3& vec3::operator*=(const int& rhs) {
+vec3& vec3::operator*=(int rhs) {
     this->x *= rhs;
     this->y *= rhs;
     this->z *= rhs;
     return *this;
 }
-vec3& vec3::operator*=(const vec3& rhs) {
+vec3& vec3::operator*=(vec3 rhs) {
     this->x *= rhs.x;
     this->y *= rhs.y;
     this->z *= rhs.z;
@@ -106,13 +110,13 @@ vec3& vec3::operator*=(const vec3& rhs) {
 
 // print operators {
 
-ostream &operator<<(ostream &os, const vec2& x) {
+ostream &operator<<(ostream &os, vec2& x) {
     return os << x.x << ' ' << x.y;
 }
-ostream &operator<<(ostream &os, const vec3& x) {
+ostream &operator<<(ostream &os, vec3 x) {
     return os << x.x << ' ' << x.y << ' ' << x.z;
 }
-ostream &operator<<(ostream &os, const vec4& x) {
+ostream &operator<<(ostream &os, vec4& x) {
     return os << x.x << ' ' << x.y << ' ' << x.z << ' ' << x.w;
 }
 
