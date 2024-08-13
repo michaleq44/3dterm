@@ -6,4 +6,6 @@ int main() {
     vec4 z;
 
     cout << x << endl << y << endl << z << endl;
+
+    return 0;
 }
