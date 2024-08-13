@@ -1,4 +1,8 @@
 #include <cmath>
+#include <iostream>
+
+using namespace std;
+
 class vec2 {
     public:
     int64_t x, y;
@@ -96,6 +100,20 @@ vec3& vec3::operator*=(const vec3& rhs) {
     this->y *= rhs.y;
     this->z *= rhs.z;
     return *this;
+}
+
+// }
+
+// print operators {
+
+ostream &operator<<(ostream &os, const vec2& x) {
+    return os << x.x << ' ' << x.y;
+}
+ostream &operator<<(ostream &os, const vec3& x) {
+    return os << x.x << ' ' << x.y << ' ' << x.z;
+}
+ostream &operator<<(ostream &os, const vec4& x) {
+    return os << x.x << ' ' << x.y << ' ' << x.z << ' ' << x.w;
 }
 
 // }
