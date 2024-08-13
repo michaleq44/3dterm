@@ -3,40 +3,61 @@
 
 using namespace std;
 
+typedef int64_t int64;
+typedef int64_t i64;
+typedef float float32;
+typedef float f32;
+typedef double float64;
+typedef double f64;
+
 class vec2 {
     public:
-    int64_t x, y;
-    vec2(int64_t x = 0, int64_t y = 0) {
+    f64 x, y;
+    vec2(f64 x = 0, f64 y = 0) {
         this->x = x;
         this->y = y;
     }
 };
 class vec3 {
     public:
-    int64_t x, y, z;
-    vec3(int64_t x = 0, int64_t y = 0, int64_t z = 0) {
+    f64 x, y, z;
+    vec3(f64 x = 0, f64 y = 0, f64 z = 0) {
         this->x = x;
         this->y = y;
         this->z = z;
     }
     vec3& operator+=(vec3 rhs);
     vec3& operator-=(vec3 rhs);
-    vec3& operator*=(int rhs);
-    vec3& operator*=(vec3 rhs);
+    vec3& operator*=(f64 rhs) {
+        this->x *= rhs;
+        this->y *= rhs;
+        this->z *= rhs;
+        return *this;
+    }
+    vec3& operator/=(f64 rhs) {
+        this->x /= rhs;
+        this->y /= rhs;
+        this->z /= rhs;
+        return *this;
+    }
     vec3 operator+(vec3 rhs) {
         return {this->x + rhs.x, this->y + rhs.y, this->z + rhs.z};
     }
     vec3 operator-(vec3 rhs) {
         return {this->x - rhs.x, this->y - rhs.y, this->z - rhs.z};;
     }
-    vec3 operator*(int rhs) {
+    vec3 operator*(f64 rhs) {
         return {this->x * rhs, this->y * rhs, this->z * rhs};
     }
-    vec3 operator*(vec3 rhs) {
-        return {this->x * rhs.x, this->y * rhs.y, this->z * rhs.z};
+    f64 operator*(vec3 rhs) {
+        return this->x * rhs.x + this->y * rhs.y + this->z * rhs.z;
     }
 
-    int64_t norm() {
+    vec3 operator/(f64 rhs) {
+        return {this->x / rhs, this->y / rhs, this->z / rhs};
+    }
+
+    f64 norm() {
         return sqrt(this->x*this->x + this->y*this->y + this->z*this->z);
     }
     vec3 cross(vec3 x) {
@@ -46,22 +67,25 @@ class vec3 {
         ret.z = this->x * x.y - this->y * x.x;
         return ret;
     }
-    int64_t dist(vec3 x) {
+    f64 dist(vec3 x) {
         vec3 y(this->x, this->y, this->z);
         return (x - y).norm();
     }
-
+    f64 angle(vec3 y) {
+        vec3 x(this->x, this->y, this->z);
+        return acos((x*y)/(x.norm()*y.norm())) * 57.296;
+    }
 };
 class vec4 {
     public:
-    int64_t x, y, z, w;
+    f64 x, y, z, w;
     vec3 v;
-    vec4(int64_t x = 0, int64_t y = 0, int64_t z = 0, int64_t w = 1) {
+    vec4(f64 x = 0, f64 y = 0, f64 z = 0, f64 w = 1) {
         this->x = x;
         this->y = y;
         this->z = z;
         this->w = w;
-        v = {x, y, z};
+        this->v = {x, y, z};
     }
 };
 
@@ -93,34 +117,19 @@ vec3& vec3::operator-=(vec3 rhs) {
     this->z -= rhs.z;
     return *this;
 }
-vec3& vec3::operator*=(int rhs) {
-    this->x *= rhs;
-    this->y *= rhs;
-    this->z *= rhs;
-    return *this;
-}
-vec3& vec3::operator*=(vec3 rhs) {
-    this->x *= rhs.x;
-    this->y *= rhs.y;
-    this->z *= rhs.z;
-    return *this;
-}
 
 // }
 
-// print operators {
+// prf64 operators {
 
-ostream &operator<<(ostream &os, vec2& x) {
+ostream &operator<<(ostream &os, vec2 x) {
     return os << x.x << ' ' << x.y;
 }
 ostream &operator<<(ostream &os, vec3 x) {
     return os << x.x << ' ' << x.y << ' ' << x.z;
 }
-ostream &operator<<(ostream &os, vec4& x) {
+ostream &operator<<(ostream &os, vec4 x) {
     return os << x.x << ' ' << x.y << ' ' << x.z << ' ' << x.w;
 }
 
 // }
-
-typedef int64_t int64;
-typedef int64_t i64;

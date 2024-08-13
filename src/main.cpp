@@ -1,14 +1,7 @@
 #include "physics_vectors.hpp"
 
 int main() {
-    vec2 x;
-    vec3 y;
-    vec4 z;
-
-    cout << x << endl << y << endl << z << endl;
-    vec3 a(1, 2);
-    a *= 4;
-    cout << a;
+    vec3 a(1, 0, 0), b(-1, 0, 5), c(6, 0, 1);
 
     return 0;
 }
